@@ -72,12 +72,16 @@ export default function ComposantHome(props) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch(post1)
-      .then((response) => {
-        return response.text();
+    Promise.all([fetch(post1), fetch(post2), fetch(post3)])
+      .then((responses) => {
+        return Promise.all(
+          responses.map((response) => {
+            return response.text();
+          })
+        );
       })
-      .then((text) => {
-        setPosts([text]);
+      .then((texts) => {
+        setPosts(texts);
       });
   }, []);
 
